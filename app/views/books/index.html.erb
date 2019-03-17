@@ -1,0 +1,64 @@
+<div class="container col-lg-3 col-lg-offset-1">
+    <div><h2>Your Info</h2></div>
+    <div><%= attachment_image_tag current_user, :prof_image,　format: 'jpeg', fallback: "no_image.jpg", size: "100x100" %></div>
+    <table class="Info table table-striped">
+        <tbody>
+            <tr>
+                <th>NAME</th>
+                <th><%= current_user.name %></th>
+            </tr>
+        </tbody>
+        <tbody>
+            <tr>
+                <th>INTRODUCTION</th>
+                <th><%= current_user.intro %></th>
+            </tr>
+        </tbody>
+    </table>
+        <%= link_to "編集", edit_user_path(current_user), class: "edit_user_#{current_user.id} btn btn-success subbtn" %>
+    <div class="h2">New Book</div>
+    <%= flash[:notice] %>
+    <% @book = Book.new unless @book %>
+    <%= form_for(@book) do |f| %>
+        <% if @book.errors.any? %>
+            <h3><%= @book.errors.count %> errors found</h3>
+            <ul>
+                <% @book.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                <% end %>
+            </ul>
+        <% end %>
+        <h3>title</h3>
+        <%= f.text_field :title, class: "book_title" %>
+        <h3>impression</h3>  
+        <%= f.text_area :imp, class: "book_body" %>
+        <%= f.submit '投稿', class: "btn btn-primary subbtn" %>
+    <% end %>
+</div>
+<div class="container col-lg-7">
+    <table class="YourBooks table table-striped">
+        <thead>
+            <tr>
+                <th>image</th>
+                <th>title</th>
+                <th>impression</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% @books = Book.all.order(id: "DESC") %>
+            <% @books.each do |book| %>
+            <% user = User.find(book.user_id) %>
+            <tr>
+                <th><%= link_to user_path(user), class: "user_#{user.id}" do %>
+                    <%= attachment_image_tag user, :prof_image,　format: 'jpeg', fallback: "no_image.jpg", size: "50x50" %>
+                    <% end %>
+                </th>
+                <th><%= link_to book.title, book_path(book), class: "book_#{book.id}" %></th>
+                <th><%= book.imp%></th>
+            </tr>
+            <% end %> 
+        </tbody>
+        
+    </table>
+    
+</div>

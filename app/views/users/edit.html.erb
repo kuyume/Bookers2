@@ -1,0 +1,24 @@
+<div class="container">
+    <h2>User Info Editing...</h2>
+    <% @user.prof_image_id = 'no_image.jpg' %>
+    <%= flash[:notice] %>
+    
+    <%= form_for(@user) do |f| %>
+        <% if @user.errors.any? %>
+            <h3><%= @user.errors.count %> errors found</h3>
+            <ul>
+                <% @user.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                <% end %>
+            </ul>
+        <% end %>
+        <h3>name</h3>
+        <%= f.text_field :name, class: "name" %>
+        <h3>image</h3>
+        <%= f.attachment_field :prof_image, class: "user_image" %>
+        <h3>introduction</h3>
+        <%= f.text_area :intro, class: "introduction" %>
+        <br>
+        <%= f.submit 'update',class: 'btn btn-success' %>
+    <% end %>
+</div>

@@ -1,0 +1,69 @@
+<div class="container col-lg-3 col-lg-offset-1">
+
+    <div><h2>User Info</h2></div>
+    <%= flash[:notice] %>
+    <div><%= attachment_image_tag @user, :prof_image,　format: 'jpeg', fallback: "no_image.jpg", size: "100x100" %></div>
+    <table class="Info table table-striped">
+        <tbody>
+            <tr>
+                <th>NAME</th>
+                <th><%= @user.name %></th>
+            </tr>
+        </tbody>
+        <tbody>
+            <tr>
+                <th>INTRODUCTION</th>
+                <th><%= @user.intro %></th>
+            </tr>
+        </tbody>
+    </table>
+        <%= link_to "編集", edit_user_path(@user), class: "edit_user_#{@user.id} btn btn-success subbtn" %>
+    <div class="h2">New Book</div>
+    <% @nbook = Book.new unless @nbook %>
+    <%= form_for(@nbook) do |f| %>
+        <% if @nbook.errors.any? %>
+            <h3><%= @nbook.errors.count %> errors found</h3>
+            <ul>
+                <% @nbook.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                <% end %>
+            </ul>
+        <% end %>
+        <h3>title</h3>
+        <%= f.text_field :title, class: "book_title" %>
+        <h3>impression</h3>  
+        <%= f.text_area :imp, class: "book_body" %>
+        <%= f.submit '投稿', class: "btn btn-primary subbtn" %>
+    <% end %>
+</div>
+<div class="container col-lg-7">
+    <table class="YourBooks table table-striped">
+        <thead>
+            <tr>
+                <th>image</th>
+                <th>user</th>
+                <th>title</th>
+                <th>impression</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th><%= link_to user_path(@user) do %>
+                    <%= attachment_image_tag @user, :prof_image,　format: 'jpeg', fallback: "no_image.jpg", size: "50x50" %>
+                    <% end %>
+                </th>
+                <th><%= link_to @user.name, user_path(@user), class: "user_#{@user.id}" %></th>
+                <th><%= link_to @book.title, book_path(@book), class: "book_#{@book.id}" %></th>
+                <th><%= @book.imp %></th>
+                <% if @user == current_user %>
+                    <th><%= link_to 'edit', edit_book_path(@book), class: "edit_book_#{@book.id}" %></th>
+                    <th><%= link_to 'destroy', book_path(@book), method: :delete, class: "destroy_book_#{@book.id}" %></th>
+                <% end %>
+            </tr>
+        </tbody>
+        
+    </table>
+    
+</div>

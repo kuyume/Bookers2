@@ -1,0 +1,62 @@
+<div class="container col-lg-3 col-lg-offset-1">
+
+    <div><h2>Your Info</h2></div>
+    <div><%= attachment_image_tag current_user, :prof_image,　format: 'jpeg', fallback: "no_image.jpg", size: "100x100" %></div>
+    <table class="Info table table-striped">
+        <tbody>
+            <tr>
+                <th>NAME</th>
+                <th><%= current_user.name %></th>
+            </tr>
+        </tbody>
+        <tbody>
+            <tr>
+                <th>INTRODUCTION</th>
+                <th><%= current_user.intro %></th>
+            </tr>
+        </tbody>
+    </table>
+        <%= link_to "編集", edit_user_path(current_user), class: "edit_user_#{current_user.id} btn btn-success subbtn" %>
+    <div class="book-post" style="width:450px;">
+        <div class="h2">New Book</div>
+        <% @book = Book.new unless @book %>
+        <%= form_for(@book) do |f| %>
+            <% if @book.errors.any? %>
+                <h3><%= @book.errors.count %> errors found</h3>
+                <ul>
+                    <% @book.errors.full_messages.each do |message| %>
+                        <li><%= message %></li>
+                    <% end %>
+                </ul>
+            <% end %>
+            <h3>title</h3>
+            <%= f.text_field :title, class: "book_title book-post" %>
+            <h3>impression</h3>  
+            <%= f.text_area :imp, class: "book_body book-post" %>
+            <br>
+            <%= f.submit '投稿', class: "btn btn-primary subbtn"%>
+        <% end %>
+    </div>
+    
+</div>
+
+<div class="container col-lg-7">
+    <table class="YourBooks table table-striped">
+        <thead>
+            <tr>
+                <th class="h3">image</th>
+                <th class="h3">name</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <% @users.each do |user| %>
+            <tr>
+                <th><%= attachment_image_tag user, :prof_image,　format: 'jpeg', fallback: "no_image.jpg", size: "50x50" %></th>
+                <th style="line-height:60px;padding:0;"><%= user.name %></th>
+                <th style="line-height:60px;padding:0;"><%= link_to "show", user_path(id: user.id), class: "user_#{user.id}" %></th>
+            </tr>
+            <% end %> 
+        </tbody>
+    </table>
+</div>

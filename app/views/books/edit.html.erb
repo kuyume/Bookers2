@@ -1,0 +1,16 @@
+<div class="container">
+    <div>
+        <div>Editing Book...</div>
+        <%= flash[:notice] %>
+        <% @book = Book.new unless @book %>
+        <%= form_for(@book) do |f| %>
+            <h3>title</h3>
+            <%= f.text_field :title, class: "book_title" %>
+            <h3>impression</h3>
+            <%= f.text_area :imp, class: "book_body" %>
+            <%= f.submit '変更完了' %>
+        <% end %>
+        <%= link_to 'show', book_path(@book), class: "book_#{@book.id}" %>
+        <%= link_to 'back', books_path, class: "back" %>
+    </div>
+</div>
